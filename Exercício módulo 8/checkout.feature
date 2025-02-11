@@ -1,72 +1,21 @@
 # language: pt
 
-Funcionalidade: Concluir Cadastro na EBAC-SHOP
-
+Feature: Tela de cadastro - Checkout
   Como cliente da EBAC-SHOP
   Quero concluir meu cadastro
   Para finalizar minha compra
 
-  Cenário: Cadastrar com todos os dados obrigatórios
+  Scenario: Cadastro com todos os campos obrigatórios preenchidos
+    Given que estou na tela de checkout
+    When preencho todos os campos obrigatórios
+    Then o sistema deve permitir a finalização do cadastro
 
-    Dado que estou na página de cadastro
-    Quando preencho todos os campos obrigatórios
-    Exemplos:
-      | Campo             | Valor                     |
-      | Nome*             | João da Silva             |
-      | E-mail*           | joao@example.com          |
-      | Senha*            | minha_senha_secreta       |
-      | Confirmar Senha*  | minha_senha_secreta       |
-      | Endereço*         | Rua Principal, 123        |
-      | Cidade*           | São Paulo                 |
-      | CEP*              | 12345-678                 |
-      | Telefone          | (11) 98765-4321           |
+  Scenario: Cadastro com e-mail inválido
+    Given que estou na tela de checkout
+    When insiro um e-mail com formato inválido
+    Then o sistema deve exibir a mensagem "Formato de e-mail inválido"
 
-    E clico no botão "Concluir Cadastro"
-    Então devo ser redirecionado para a finalização da compra
-
-    Critérios de Aceitação:
-      - O cadastro deve ser concluído com todos os dados obrigatórios marcados com asteriscos (*)
-      - O usuário deve ser redirecionado para a finalização da compra
-
-  Cenário: Tentativa de cadastro com e-mail inválido
-
-    Dado que estou na página de cadastro
-    Quando preencho o campo de e-mail com um formato inválido
-    Exemplos:
-      | Campo             | Valor                 |
-      | Nome*             | Maria da Silva        |
-      | E-mail*           | email_invalido.com    |
-      | Senha*            | senha_secreta         |
-      | Confirmar Senha*  | senha_secreta         |
-      | Endereço*         | Av. Principal, 456    |
-      | Cidade*           | Rio de Janeiro        |
-      | CEP*              | 54321-876             |
-      | Telefone          | (21) 98765-4321       |
-
-    E clico no botão "Concluir Cadastro"
-    Então devo ver uma mensagem de erro indicando que o formato do e-mail é inválido
-
-    Critérios de Aceitação:
-      - Não deve permitir o cadastro com um campo de e-mail com formato inválido
-      - Deve exibir uma mensagem de erro informando sobre o formato inválido do e-mail
-
-  Cenário: Tentativa de cadastro com campos vazios
-
-    Dado que estou na página de cadastro
-    Quando tento cadastrar com campos vazios
-    Exemplos:
-      | Campo             | Valor                 |
-      | Nome*             |                      |
-      | E-mail*           |                      |
-      | Senha*            |                      |
-      | Confirmar Senha*  |                      |
-      | Endereço*         |                      |
-      | Cidade*           |                      |
-      | CEP*              |                      |
-      | Telefone          |                      |
-
-    E clico no botão "Concluir Cadastro"
-    Então devo ver uma mensagem de alerta indicando que campos obrigatórios estão vazios
-
-    Critérios de Aceitação:
-      - Ao tentar cadastrar com campos vazios, uma mensagem de alerta deve ser exibida
+  Scenario: Cadastro com campos vazios
+    Given que estou na tela de checkout
+    When tento concluir sem preencher todos os campos obrigatórios
+    Then o sistema deve exibir uma mensagem de alerta
